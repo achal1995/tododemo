@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<a href="/dashboard"><< Back to Dashboard</a>
+<h1>Update Profile</h1>
+<div class="container my-4">
+    {% include 'partials/_alerts.html' %}
+    <form action="{% url 'edit' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+        <span>Name : <input type="text" class="form-control" name="name" placeholder="John Doe"></span><br>
+        <span>Profile Picture : <input type="file" class="form-control" name="avatar" accept="image/*"></span><br>
+        <input type="submit" class="btn btn-success" value="Update Profile">
+    </form>
+</div>
+{% endblock %}

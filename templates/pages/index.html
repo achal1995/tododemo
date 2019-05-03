@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if not user.is_authenticated %}
+<h1>Login to Save List</h1>
+{% else %}
+<h1>Welcome.</h1>
+{% endif %}
+<div class="container">
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'index' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>Task</label>
+                            <input type="text" class="form-control" name="task" placeholder="E.g. Buy paper clips" required>                            
+                        </div>
+                        <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i> Add Task</button>
+                    </form>
+                    <form action="{% url 'index' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="hidden" value="del_all" class="form-control" name="deleteall">                            
+                            </div>
+                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> Delete All</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 mx-4">
+            <div class="card" style="width: 18rem;">
+                {% if user.is_authenticated %}
+                <div class="card-header">List-{fetched from db}</div>
+                {% else %}
+                <div class="card-header">List-{fetched from session}</div>
+                {% endif %}
+                {% include 'partials/_alerts.html' %}
+                <ul class="list-group list-group-flush">
+                    {% for item in todo_tasks %}
+                        {% if item is not 0 %}
+                            <li class="float-left list-group-item">{{ item }}
+                                <form class="float-right" action="{% url 'index' %}" method="POST">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                            <input type="hidden" value="{{ item }}" class="form-control" name="deleteitem">                            
+                                        </div>
+                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                </form>  
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

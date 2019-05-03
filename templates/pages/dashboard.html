@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Welcome {{ user.full_name }}!</h1>
+<a href="edit" class="btn btn-success">Edit Profile</a>
+<div class="container my-4">
+    <span>Name : {{ user.full_name }}</span><br>
+    <span>Email : {{ user.email }}</span><br>
+    <span>Profile Picture : </span><br>
+    <img src="/media/{{ profilepic }}" width="200" height="200" class="img-thumbnail">
+</div>
+{% endblock %}
